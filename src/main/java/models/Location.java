@@ -1,14 +1,14 @@
 package models;
 
 import org.sql2o.Connection;
-import java.net.ConnectException;
 import java.util.List;
 
-public class location{
-    int id;
-    String Location ;
+public class Location{
 
-    public location(String location) {
+   private int id;
+   private String Location ;
+
+    public Location(String location) {
         Location = location;
     }
 
@@ -31,16 +31,16 @@ public class location{
         try(Connection con = DB.sql2o.open()){
             return con.createQuery(sql)
                     .throwOnMappingFailure(false)
-                    .executeAndFetch(location.class);
+                    .executeAndFetch(Location.class);
         }
     }
-    public static location find(int id) {
+    public static Location find(int id) {
         String sql = "SELECT * FROM location WHERE id = :id";
         try (Connection con = DB.sql2o.open()) {
-            location Location = con.createQuery(sql)
+            Location Location = con.createQuery(sql)
                     .addParameter("id", id)
                     .throwOnMappingFailure(false)
-                    .executeAndFetchFirst(location.class);
+                    .executeAndFetchFirst(Location.class);
             return Location;
         }
     }

@@ -1,55 +1,87 @@
 package models;
 
-public class EndangeredAnimal {
+import java.util.List;
+import org.sql2o.*;
+
+
+public class EndangeredAnimal implements DatabaseManagement {
     private int id;
-    private String animal_name;
-    private String animal_health;
-    private String animal_age;
-    private int sighting_id;
+    private String name;
+    private String health;
+    private String age;
 
-    public EndangeredAnimal(String animal_name, String animal_health, String animal_age) {
-        this.animal_name = animal_name;
-        this.animal_health = animal_health;
-        this.animal_age = animal_age;
-    }
+    public static final String HEALTHY="healthy";
+    public static final String ILL="ill";
+    public static final String OKAY="okay";
 
-    public int getSighting_id() {
-        return sighting_id;
-    }
+    public static final String NEWBORN="newborn";
+    public static final String YOUNG="young";
+    public static final String ADULT="adult";
 
-    public void setSighting_id(int sighting_id) {
-        this.sighting_id = sighting_id;
+    public static final String DATABASE_TYPE = "endangered";
+
+    public EndangeredAnimal(String name, String health, String age) {
+        this.name = name ;
+        this.health = health;
+        this.age = age;
+
     }
 
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public String getName() {
+        return name;
     }
 
-    public String getAnimal_name() {
-        return animal_name;
+    public String getHealth() {
+        return health;
     }
 
-    public void setAnimal_name(String animal_name) {
-        this.animal_name = animal_name;
+    public String getAge() {
+        return age;
     }
 
-    public String getAnimal_health() {
-        return animal_health;
+    public void save() {
+        String sql = "INSERT INTO endangered(name,age,health,ranger) VALUES (:name,:age,:health,:ranger)";
+        try (Connection con = DB.sql2o.open()) {
+            this.id = (int)
+                    con.createQuery(sql, true)
+                            .addParameter("name", this.name)
+                            .addParameter("age", this.age)
+                            .addParameter("health", this.health)
+                            .executeUpdate()
+                            .getKey();
+        }
     }
 
-    public void setAnimal_health(String animal_health) {
-        this.animal_health = animal_health;
+    @Override
+    public void delete() {
+        String sql = "DELETE FROM endangered";
+        try(Connection con = DB.sql2o.open()){
+            con.createQuery(sql)
+                    .executeUpdate();
+        }
+
     }
 
-    public String getAnimal_age() {
-        return animal_age;
+    public static List<EndangeredAnimal> all() {
+        String sql = "SELECT * FROM endangered";
+        try (Connection con = DB.sql2o.open()) {
+            return con.createQuery(sql)
+                    .executeAndFetch(EndangeredAnimal.class);
+        }
     }
 
-    public void setAnimal_age(String animal_age) {
-        this.animal_age = animal_age;
+    public static EndangeredAnimal find(int id) {
+        String sql = "SELECT * FROM animals WHERE id = :id";
+        try (Connection con = DB.sql2o.open()) {
+            EndangeredAnimal animals = con.createQuery(sql)
+                    .addParameter("id", id)
+                    .throwOnMappingFailure(false)
+                    .executeAndFetchFirst(EndangeredAnimal.class);
+            return animals;
+        }
     }
 }

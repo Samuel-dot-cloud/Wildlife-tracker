@@ -5,16 +5,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public  class Ranger{
-    int id;
-    String Name;
-    String Phone ;
-    String Email;
+public class Ranger{
+   private int id;
+   private String name;
+   private String phone ;
+   private Long badge_number;
 
-    public Ranger(String name, String phone, String email) {
-        Name = name;
-        Phone = phone;
-        Email = email;
+    public Ranger(String name, String phone, Long badge_number ) {
+        this.name = name;
+        this.phone = phone;
+        this.badge_number = badge_number;
     }
 
     @Override
@@ -22,33 +22,33 @@ public  class Ranger{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Ranger ranger = (Ranger) o;
-        return Objects.equals(Name, ranger.Name);
+        return Objects.equals(name, ranger.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(Name);
+        return Objects.hash(name);
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public String getPhone() {
-        return Phone;
+        return phone;
     }
 
-    public String getEmail() {
-        return Email;
+    public Long getBadge_Number() {
+        return badge_number;
     }
     public void save() {
-        String sql = "INSERT INTO rangers (name,phone,email) VALUES (:name,:phone,:email) ";
+        String sql = "INSERT INTO rangers (name, phone, badge_number) VALUES (:name, :phone, :badge_number) ";
         try (Connection con = DB.sql2o.open()) {
             this.id = (int)
                     con.createQuery(sql,true)
-                            .addParameter("name" , this.Name)
-                            .addParameter("phone",this.Phone)
-                            .addParameter("email", this.Email)
+                            .addParameter("name" , this.name)
+                            .addParameter("phone",this.phone)
+                            .addParameter("email", this.badge_number)
                             .throwOnMappingFailure(false)
                             .executeUpdate()
                             .getKey();
@@ -71,13 +71,13 @@ public  class Ranger{
             return ranger;
         }
     }
-    public List<Endangered> found() {
+    public List<EndangeredAnimal> found() {
         try(Connection con = DB.sql2o.open()) {
             String sql = "SELECT * FROM endangered where ranger=:name";
             return con.createQuery(sql)
-                    .addParameter("name", this.Name)
+                    .addParameter("name", this.name)
                     .throwOnMappingFailure(false)
-                    .executeAndFetch(Endangered.class);
+                    .executeAndFetch(EndangeredAnimal.class);
         }
     }
     public void delete(){
@@ -93,7 +93,7 @@ public  class Ranger{
         String sql = "SELECT * FROM sightings WHERE  rangerName = : name";
         try(Connection con = DB.sql2o.open()){
             return con.createQuery(sql)
-                    .addParameter("name",this.Name)
+                    .addParameter("name",this.name)
                     .throwOnMappingFailure(false)
                     .executeAndFetch(Sighting.class);
         }

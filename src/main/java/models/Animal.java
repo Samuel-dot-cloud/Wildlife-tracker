@@ -1,37 +1,81 @@
 package models;
 
-public class Animal {
+import org.sql2o.*;
+import java.util.List;
+import java.util.Objects;
+
+public  class Animal implements DatabaseManagement{
     private int id;
-    private String animal_name;
-    private int sighting_id;
+    private String name;
+    private int sightingId;
 
-    public Animal(String animal_name, int sighting_id) {
-
-        this.animal_name = animal_name;
-        this.sighting_id = sighting_id;
+    public Animal(String name, int sightingId) {
+        this.name = name;
+        this.sightingId =sightingId;
     }
 
-    public String getAnimal_name() {
-        return animal_name;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Animal animal = (Animal) o;
+        return Objects.equals(name, animal.name);
     }
 
-    public void setAnimal_name(String animal_name) {
-        this.animal_name = animal_name;
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 
-    public int getSighting_id() {
-        return sighting_id;
-    }
-
-    public void setSighting_id(int sighting_id) {
-        this.sighting_id = sighting_id;
-    }
-
-    public int getId() {
-        return id;
+    public String getName() {
+        return name;
     }
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    public void save() {
+        if( this.sightingId ==-1) {
+            throw new IllegalArgumentException("Enter the right sighting Id");
+        }
+        try (Connection con = DB.sql2o.open()) {
+            String sql = "INSERT INTO animals (name,sightingId) VALUES (:name,:sightingId)";
+            this.id = (int)
+                    con.createQuery(sql,true)
+                            .addParameter("name" ,this.name)
+                            .addParameter("sightingId",this.sightingId)
+                            .executeUpdate()
+                            .getKey();
+        }
+    }
+
+    @Override
+    public void delete() {
+        String sql = "DELETE FROM animals";
+        try(Connection con = DB.sql2o.open()){
+            con.createQuery(sql)
+                    .executeUpdate();
+        }
+
+    }
+
+    public static List<Animal>allAnimals(){
+        String sql = "SELECT  * FROM animals";
+        try(Connection con = DB.sql2o.open()){
+            return con.createQuery(sql).executeAndFetch(Animal.class);
+        }
+    }
+    public static Animal findAnimal(int id){
+        try(Connection con = DB.sql2o.open()){
+            String sql = "SELECT * FROM animals WHERE id = :id";
+            Animal animal = con.createQuery(sql)
+                    .executeAndFetchFirst(Animal.class);
+            return animal;
+        }
     }
 }
