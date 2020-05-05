@@ -34,7 +34,7 @@ public class Sighting {
     }
 
     public void saveSighting(){
-        String sql = "INSERT INTO  sightings (location, ranger, date) VALUES (:location, :ranger, now())";
+        String sql = "INSERT INTO  sighting (location, ranger, date) VALUES (:location, :ranger, now())";
         try(Connection con = DB.sql2o.open()){
             this.id =(int)
                     con.createQuery(sql,true)
@@ -45,14 +45,14 @@ public class Sighting {
         }
     }
     public static List<Sighting> allSightings(){
-        String sql = "SELECT  *  FROM sightings";
+        String sql = "SELECT  *  FROM sighting";
         try(Connection con = DB.sql2o.open()){
             return con.createQuery(sql)
                     .executeAndFetch(Sighting.class);
         }
     }
     public static Sighting find(int id) {
-        String sql = "SELECT * FROM sightings WHERE id = :id";
+        String sql = "SELECT * FROM sighting WHERE id = :id";
         try (Connection con = DB.sql2o.open()) {
             Sighting sights = con.createQuery(sql)
                     .addParameter("id", id)
@@ -62,7 +62,7 @@ public class Sighting {
     }
     public void findAnimal(){
         try(Connection con = DB.sql2o.open()){
-            String sql = "SELECT * FROM animals WHERE sightingId = :id";
+            String sql = "SELECT * FROM animal WHERE sightingId = :id";
             con.createQuery(sql)
                     .addParameter("id",this.id)
                     .executeAndFetch(Animal.class);

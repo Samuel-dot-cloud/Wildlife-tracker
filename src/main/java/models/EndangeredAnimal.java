@@ -75,7 +75,7 @@ public class EndangeredAnimal implements DatabaseManagement {
     }
 
     public static EndangeredAnimal find(int id) {
-        String sql = "SELECT * FROM animals WHERE id = :id";
+        String sql = "SELECT * FROM animal WHERE id = :id";
         try (Connection con = DB.sql2o.open()) {
             EndangeredAnimal animals = con.createQuery(sql)
                     .addParameter("id", id)

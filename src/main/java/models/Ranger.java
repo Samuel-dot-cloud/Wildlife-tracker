@@ -42,7 +42,7 @@ public class Ranger{
         return badge_number;
     }
     public void save() {
-        String sql = "INSERT INTO rangers (name, phone, badge_number) VALUES (:name, :phone, :badge_number) ";
+        String sql = "INSERT INTO ranger (name, phone, badge_number) VALUES (:name, :phone, :badge_number) ";
         try (Connection con = DB.sql2o.open()) {
             this.id = (int)
                     con.createQuery(sql,true)
@@ -55,14 +55,14 @@ public class Ranger{
         }
     }
     public static List<Ranger> all(){
-        String sql = "SELECT * FROM rangers";
+        String sql = "SELECT * FROM ranger";
         try(Connection con = DB.sql2o.open()){
             return con.createQuery(sql)
                     .executeAndFetch(Ranger.class);
         }
     }
     public static Ranger find(int id){
-        String sql = "SELECT * FROM rangers WHERE id = :id";
+        String sql = "SELECT * FROM ranger WHERE id = :id";
         try (Connection con = DB.sql2o.open()){
             Ranger ranger = con.createQuery(sql)
                     .addParameter("id",id)
@@ -82,7 +82,7 @@ public class Ranger{
     }
     public void delete(){
         try(Connection con = DB.sql2o.open()) {
-            String sql = "DELETE FROM  rangers";
+            String sql = "DELETE FROM  ranger";
             con.createQuery(sql)
                     .addParameter("id",this.id)
                     .throwOnMappingFailure(false)
@@ -90,7 +90,7 @@ public class Ranger{
         }
     }
     public  List<Sighting> allSightings(){
-        String sql = "SELECT * FROM sightings WHERE  rangerName = : name";
+        String sql = "SELECT * FROM sighting WHERE  rangerName = : name";
         try(Connection con = DB.sql2o.open()){
             return con.createQuery(sql)
                     .addParameter("name",this.name)

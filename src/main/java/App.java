@@ -1,5 +1,8 @@
 import models.*;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import spark.ModelAndView;
 import org.sql2o.Sql2o;
@@ -33,7 +36,7 @@ public class App{
         },new HandlebarsTemplateEngine());
 
 
-        post("/animals/new",(request, response) -> {
+        post("/animal/new",(request, response) -> {
             Map<String,Object>model = new HashMap<>();
             String animalName = request.queryParams("Name");
             String health = request.queryParams("health");
@@ -55,7 +58,7 @@ public class App{
         },new HandlebarsTemplateEngine());
 
 
-        get("/animals/new",(request, response) -> {
+        get("/animal/new",(request, response) -> {
             Map<String,Object> model = new HashMap<>();
             model.put("animals",Animal.allAnimals());
             return new ModelAndView(model,"animal-detail.hbs");
@@ -116,6 +119,49 @@ public class App{
             }
             return new ModelAndView(model,"ranger-detail.hbs");
         },new HandlebarsTemplateEngine());
+
+        get("/create/location",(request, response) -> {
+            Map<String,Object> model=new HashMap<String, Object>();
+            return new ModelAndView(model,"location-form.hbs");
+        },new HandlebarsTemplateEngine());
+
+        post("/create/location/new",(request, response) -> {
+            Map<String,Object> model=new HashMap<String, Object>();
+            String name=request.queryParams("name");
+            Location location=new Location(name);
+            try {
+                location.save();
+            }catch (IllegalArgumentException e){
+                System.out.println(e);
+            }
+
+            return new ModelAndView(model,"location-form.hbs");
+        },new HandlebarsTemplateEngine());
+        get("/view/locations",(request, response) -> {
+            Map<String,Object> model=new HashMap<String, Object>();
+            model.put("locations",Location.all());
+            return new ModelAndView(model,"location-view.hbs");
+        },new HandlebarsTemplateEngine());
+
+        get("/view/location/sightings/:id",(request, response) -> {
+            Map<String,Object> model=new HashMap<String, Object>();
+            int idOfLocation= Integer.parseInt(request.params(":id"));
+            Locations foundLocation=Location.find(idOfLocation);
+            List<Sighting> sightings=foundLocation.getLocationSightings();
+            ArrayList<String> animals=new ArrayList<String>();
+            ArrayList<String> types=new ArrayList<String>();
+            for (Sighting sighting : sightings){
+                String animal_name=Animal.find(sighting.getAnimal_id()).getName();
+                String animal_type=Animal.find(sighting.getAnimal_id()).getType();
+                animals.add(animal_name);
+                types.add(animal_type);
+            }
+            model.put("sighting",sightings);
+            model.put("animals",animals);
+            model.put("location",Location.all());
+            return new ModelAndView(model,"location-detail.hbs");
+        },new HandlebarsTemplateEngine());
+
 
     }
 }
