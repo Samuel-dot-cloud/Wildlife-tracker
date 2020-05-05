@@ -44,7 +44,7 @@ public  class Animal implements DatabaseManagement{
             throw new IllegalArgumentException("Enter the right sighting Id");
         }
         try (Connection con = DB.sql2o.open()) {
-            String sql = "INSERT INTO animals (name,sightingId) VALUES (:name,:sightingId)";
+            String sql = "INSERT INTO animal (name) VALUES (:name)";
             this.id = (int)
                     con.createQuery(sql,true)
                             .addParameter("name" ,this.name)
@@ -56,7 +56,7 @@ public  class Animal implements DatabaseManagement{
 
     @Override
     public void delete() {
-        String sql = "DELETE FROM animals";
+        String sql = "DELETE FROM animal";
         try(Connection con = DB.sql2o.open()){
             con.createQuery(sql)
                     .executeUpdate();
@@ -65,14 +65,14 @@ public  class Animal implements DatabaseManagement{
     }
 
     public static List<Animal>allAnimals(){
-        String sql = "SELECT  * FROM animals";
+        String sql = "SELECT  * FROM animal";
         try(Connection con = DB.sql2o.open()){
             return con.createQuery(sql).executeAndFetch(Animal.class);
         }
     }
     public static Animal findAnimal(int id){
         try(Connection con = DB.sql2o.open()){
-            String sql = "SELECT * FROM animals WHERE id = :id";
+            String sql = "SELECT * FROM animal WHERE id = :id";
             Animal animal = con.createQuery(sql)
                     .executeAndFetchFirst(Animal.class);
             return animal;
