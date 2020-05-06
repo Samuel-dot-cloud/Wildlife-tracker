@@ -1,0 +1,50 @@
+{{#partial "styles"}}
+    <link rel='stylesheet' href='/css/app.css'>
+{{/partial}}
+{{#partial "content"}}
+    <h1 class="header">WILDLIFE TRACKER</h1>
+    <hr>
+    <br>
+    <br>
+    <br>
+    <form action="/view" method="post" id="form">
+        <h2>Animals</h2>
+        <p>“When it comes to conserving wildlife and the environment, It's more important to be outspoken, than unspoken” </p>
+        <hr>
+
+        <div class="form-group">
+            <label for="animalName">Animal Name</label>
+            <input type="text" id="animalName" name="animalName">
+        </div>
+        <div class="form-group">
+            <label>Animal's Age</label>
+            <select name="animalAge" id="animalAge">
+                <option selected>Choose..</option>
+                <option value="newborn">Newborn</option>
+                <option value="young">Young</option>
+                <option value="adult">Adult</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Animal's Health</label>
+            <select name="animalHealth" id="animalHealth">
+                <option selected>Choose..</option>
+                <option value="ill">Ill</option>
+                <option value="weak">Weak</option>
+                <option value="healthy">Healthy</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Animal's Type</label>
+            <select name="animalType" id="animalType">
+                <option selected>Choose..</option>
+                <option value="safe">Safe</option>
+                <option value="endangered">Endangered</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-success" id="button">Submit</button>
+    </form>
+{{/partial}}
+{{> layout.hbs}}

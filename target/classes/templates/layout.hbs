@@ -2,16 +2,17 @@
 <html>
 <head>
     <title>{{#block "title"}}Wildlife Tracker{{/block}}</title>
-    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Sansita&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/app.css">
 </head>
 <body>
-<ul class="nav nav-tabs">
+<ul class="nav justify-content-end" id="nav">
     <li role="presentation" class="active"><a href="/">Home</a></li>
     <li role="presentation"><a href="/animal-form">Add an Animal</a></li>
-    <li class="nav-item"><a class="nav-link" href="/sight-form">Add Sight</a></li>
+    <li class="nav-item"><a class="nav-link" href="/sighting-form">Add Sight</a></li>
     <li class="nav-item"><a class="nav-link" href="/animal-detail">View Animals</a></li>
-    <li class="nav-item"><a class="nav-link" href="/sight-detail">View Sights</a></li>
+    <li class="nav-item"><a class="nav-link" href="/sighting-detail">View Sights</a></li>
 </ul>
 
 <div class="container" style="background: url(https://images.pexels.com/photos/1939485/pexels-photo-1939485.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500)">
@@ -39,14 +40,12 @@
         <div class="container" style="background-color: #ddd">
             <hr>
             <p class="text-muted">
-                <a href="/sightings/delete">Delete Everything</a><br>
-                <a href="/endangeredAnimals/delete">Delete Endangered Animals</a><br>
-                <a href="/animals/delete">Delete Animals</a>
+                <p> We care for the ecosystem.</p><br>
+                <p>Protect Endangered Animals.</p><br>
+                <p>Report and save a life.</p>
             </p>
         </div>
     </footer>
     </body>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     </html>
 {{/block}}
