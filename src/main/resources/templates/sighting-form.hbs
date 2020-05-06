@@ -1,36 +1,33 @@
-{{#partial "content"}}
-    {{#if editSighting}}
-        <h1>Edit {{sighting.ranger_name}}</h1>
-        <form action="/sightings/{{sighting.id}}" method="post">
-            <!--        check line below for potential error due to naming inconsistencies-->
-            <div class="form-group">
-                <label for="animal_location">Location Sighted</label>
-                <input id="animal_location" name="animal_location" type="text" value="{{sighting.animal_location}}" class="form-control">
-            </div>
-            <br>
-            <div class="form-group">
-                <label for="ranger_name">Ranger Name</label>
-                <input id="ranger_name" name="ranger_name" type="text" value="{{sighting.ranger_name}}" class="form-control">
-            </div>
-            <br>
-            <button type="submit" class="btn btn-default">Submit</button>
-        </form>
-    {{else}}
-        <h1>Add a new Sighting!</h1>
-        <form action="/sightings" method="post">
-            <div class="form-group">
-                <label for="animal_location">Location Sighted</label>
-                <input id="animal_location" name="animal_location" type="text" class="form-control">
-            </div>
-            <br>
-            <div class="form-group">
-                <label for="ranger_name">Ranger Name</label>
-                <input id="ranger_name" name="ranger_name" type="text" class="form-control">
-            </div>
-            <br>
-            <button type="submit" class="btn btn-default">Submit</button>
-        </form>
-    {{/if}}
+{{#partial "styles"}}
+    <link rel='stylesheet' href='/css/app.css'>
 {{/partial}}
+{{#partial "content"}}
+    <h1 class="header">WILDLIFE TRACKER</h1>
+    <hr>
+    <br>
+    <br>
+    <br>
+    <form action="/view1" method="post" id="form">
+        <h2>Sightings</h2>
+        <p>“When it comes to conserving wildlife and the environment, It's more important to be outspoken, than unspoken” </p>
+        <hr>
+        <div class="form-group">
+            <label for="rangerName">Ranger's Name</label>
+            <input type="text" id="rangerName" name="rangerName">
+        </div>
+        <div class="form-group">
+            <label>Location of Sighting</label>
+            <select name="sightingLocation" id="sightingLocation">
+                <option selected>Choose..</option>
+                <option value="Zone1">North</option>
+                <option value="Zone2">South</option>
+                <option value="Zone3">East</option>
+                <option value="Zone4">West</option>
+                <option value="Zone5">Central</option>
+            </select>
+        </div>
 
+        <button type="submit" class="btn btn-success" id="button">Submit</button>
+    </form>
+{{/partial}}
 {{> layout.hbs}}

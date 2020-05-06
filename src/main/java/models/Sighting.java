@@ -1,72 +1,96 @@
 package models;
 
+import models.DatabaseManagement;
 import org.sql2o.Connection;
-import java.util.List;
-import java.util.Objects;
+
 import java.sql.Timestamp;
-import java.util.Date;
+import java.util.List;
 
-public class Sighting {
+public class Sighting implements DatabaseManagement {
+
+    private String name;
+    private String location;
+    private int animalId;
+    private Timestamp timestamp;
     private int id;
-    private String ranger;
-    private String Location;
-    private Date date= new Date();
-    private Timestamp time;
 
-    public Sighting(String ranger, String Location) {
-        this.ranger = ranger;
-        this.Location = Location;
-        this.time = new Timestamp(date.getTime());
+
+    public Sighting(String name, String location) {
+        this.name = name;
+        this.location = location;
+
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public int getAnimalId() {
+        return animalId;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public Timestamp getTimestamp() {
+        return timestamp;
+    }
+
+    public Abstract getAnimal() {
+        String sql = "SELECT * FROM animal WHERE id = :id";
+        try (Connection con = DB.sql2o.open()) {
+            Abstract myAnimal = con.createQuery(sql)
+                    .addParameter("id", this.animalId)
+                    .executeAndFetchFirst(Abstract.class);
+            return myAnimal;
+        }
+    }
+
+    public void save() {
+        try (Connection con = DB.sql2o.open()) {
+            String sql = "INSERT INTO sighting (name, location, timestamp) VALUES (:name, :location, now());";
+            this.id = (int) con.createQuery(sql, true)
+                    .addParameter("name", this.name)
+                    .addParameter("location", this.location)
+                    .executeUpdate()
+                    .getKey();
+        }
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Sighting sighting = (Sighting) o;
-        return Objects.equals(ranger, sighting.ranger) &&
-                Objects.equals(Location, sighting.Location);
+    public void delete() {
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(ranger, Location);
+    public boolean equals(Object otherSighting) {
+        if (!(otherSighting instanceof Object)) {
+            return false;
+        }
+        Sighting myAnimal = (Sighting) otherSighting;
+        return this.getName().equals(myAnimal.getName()) &&
+                this.getLocation().equals(myAnimal.getLocation()) &&
+                this.getId() == myAnimal.getId();
     }
 
-    public void saveSighting(){
-        String sql = "INSERT INTO  sighting (location, ranger, date) VALUES (:location, :ranger, now())";
-        try(Connection con = DB.sql2o.open()){
-            this.id =(int)
-                    con.createQuery(sql,true)
-                            .addParameter("ranger",this.ranger)
-                            .addParameter("location",this.Location)
-                            .executeUpdate()
-                            .getKey();
+    public static List<Sighting> all() {
+        String sql = "SELECT * FROM sighting;";
+        try (Connection con = DB.sql2o.open()) {
+            return con.createQuery(sql).executeAndFetch(Sighting.class);
         }
     }
-    public static List<Sighting> allSightings(){
-        String sql = "SELECT  *  FROM sighting";
-        try(Connection con = DB.sql2o.open()){
-            return con.createQuery(sql)
-                    .executeAndFetch(Sighting.class);
-        }
-    }
+
     public static Sighting find(int id) {
         String sql = "SELECT * FROM sighting WHERE id = :id";
         try (Connection con = DB.sql2o.open()) {
-            Sighting sights = con.createQuery(sql)
+            Sighting sighting = con.createQuery(sql)
                     .addParameter("id", id)
                     .executeAndFetchFirst(Sighting.class);
-            return sights;
+            return sighting;
         }
     }
-    public void findAnimal(){
-        try(Connection con = DB.sql2o.open()){
-            String sql = "SELECT * FROM animal WHERE sightingId = :id";
-            con.createQuery(sql)
-                    .addParameter("id",this.id)
-                    .executeAndFetch(Animal.class);
-        }
-    }
-
 }

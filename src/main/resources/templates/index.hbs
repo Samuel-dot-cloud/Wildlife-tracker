@@ -1,14 +1,19 @@
-{{#partial "content"}}
-
-    <h1>Sighted Animals</h1>
-
-    {{#if animals}}
-        {{#each animals }}
-            <p><a href="/sightings/{{sighting_id}}/animals/{{id}}">{{animal_name}}</a></p>
-        {{/each}}
-    {{else}}
-        <p>No animals spotted!</p>
-    {{/if}}
+{{#partial "styles"}}
+    <link rel='stylesheet' href='/css/app.css'>
 {{/partial}}
 
-{{> layout.hbs}}
+{{#partial "content"}}
+
+    <div class="page-header">
+
+        <h1>WILDLIFE TRACKER</h1>
+    </div>
+
+    <div class="button-all">
+        <a href="/animal-form" class="btn btn-warning">Report an animal Now!!!</a>
+    </div>
+    <br>
+    <br>
+
+{{/partial}}
+{{>layout.hbs}}

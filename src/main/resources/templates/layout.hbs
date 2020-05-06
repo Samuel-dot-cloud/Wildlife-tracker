@@ -2,47 +2,19 @@
 <html>
 <head>
     <title>{{#block "title"}}Wildlife Tracker{{/block}}</title>
-    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Sansita&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/app.css">
 </head>
 <body>
 <ul class="nav nav-tabs">
     <li role="presentation" class="active"><a href="/">Home</a></li>
-    <li role="presentation"><a href="/animals/new">Add an Animal</a></li>
-
-    <li role="presentation" class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-            Endangered Animals<span class="caret"></span>
-        </a>
-        <ul class="dropdown-menu">
-            {{#if endangeredAnimals}}
-                {{#each endangeredAnimals}}
-                    <li><a href="/endangeredAnimals/{{id}}">{{animal_name}}</a></li>
-                {{/each}}
-                <li><a href="/endangeredAnimals/new">Add an Endangered Animal</a></li>
-            {{else}}
-                <li><a href="/endangeredAnimals/new">Add an Endangered Animal</a></li>
-            {{/if}}
-        </ul>
-    </li>
-
-    <li role="presentation" class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-            Sightings<span class="caret"></span>
-        </a>
-        <ul class="dropdown-menu">
-            {{#if sightings}}
-                {{#each sightings}}
-                    <li><a href="/sightings/{{id}}">{{ranger_name}}</a></li>
-                {{/each}}
-                <li><a href="/sightings/new">Add a Sighting</a></li>
-            {{else}}
-                <li><a href="/sightings/new">Add a Sighting</a></li>
-            {{/if}}
-        </ul>
-    </li>
-
+    <li role="presentation"><a href="/animal-form">Add an Animal</a></li>
+    <li class="nav-item"><a class="nav-link" href="/sighting-form">Add Sight</a></li>
+    <li class="nav-item"><a class="nav-link" href="/animal-detail">View Animals</a></li>
+    <li class="nav-item"><a class="nav-link" href="/sighting-detail">View Sights</a></li>
 </ul>
+
 <div class="container" style="background: url(https://images.pexels.com/photos/1939485/pexels-photo-1939485.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500)">
     <!--begin main template-->
     <div class="page-header">
@@ -68,14 +40,12 @@
         <div class="container" style="background-color: #ddd">
             <hr>
             <p class="text-muted">
-                <a href="/sightings/delete">Delete Everything</a><br>
-                <a href="/endangeredAnimals/delete">Delete Endangered Animals</a><br>
-                <a href="/animals/delete">Delete Animals</a>
+                <p> We care for the ecosystem.</p><br>
+                <p>Protect Endangered Animals.</p><br>
+                <p>Report and save a life.</p>
             </p>
         </div>
     </footer>
     </body>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     </html>
 {{/block}}
