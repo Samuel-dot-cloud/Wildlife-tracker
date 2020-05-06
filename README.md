@@ -19,11 +19,8 @@ The project is a Java web application built with the spark framework whereby peo
 - While in psql:
 - `CREATE DATABASE wildlife_tracker;`
 - `\c wildlife_tracker`
-- `CREATE TABLE animal (id serial PRIMARY KEY, name varchar);`
-- `CREATE TABLE endangered (id serial PRIMARY KEY, name varchar, health varchar, age varchar);`
-- `CREATE TABLE ranger (id serial PRIMARY KEY, name varchar, phone varchar, badge_number varchar);`
-- `CREATE TABLE location (id serial PRIMARY KEY, location varchar);`
-- `CREATE TABLE sighting (id serial PRIMARY KEranger varchar, date timestamp); `
+- `CREATE TABLE animals (id serial PRIMARY KEY, ranger_name VARCHAR,animal_name VARCHAR,health VARCHAR, age VARCHAR, location VARCHAR);`
+- `CREATE TABLE sightings (id SERIAL PRIMARY KEY, ranger_name VARCHAR, animal_name VARCHAR,health VARCHAR, age VARCHAR, location VARCHAR); `
 - `CREATE DATABASE wildlife_tracker_test WITH TEMPLATE wildlife_tracker;`
 
 ### TECHNOLOGIES USED.
@@ -36,7 +33,7 @@ The project is a Java web application built with the spark framework whereby peo
 - Bootstrap.
 
 ### KNOWN BUGS.
-Deployment of the app through heroku. 
+---------------
 
 ### CONTACT INFORMATION.
 For more information, feel free to contact me through the email address: samdot@gmail.com
